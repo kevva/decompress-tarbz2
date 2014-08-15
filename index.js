@@ -28,7 +28,8 @@ module.exports = function (opts) {
 
         sbuff(file.contents).pipe(tar.Parse())
             .on('error', function (err) {
-                return cb(err);
+                cb(err);
+                return;
             })
             .on('entry', function (file) {
                 if (file.type !== 'Directory') {
