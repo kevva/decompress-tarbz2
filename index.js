@@ -1,9 +1,9 @@
 'use strict';
 
-var archiveType = require('archive-type');
 var bz2 = require('seek-bzip');
+var isBzip2 = require('is-bzip2');
 var sbuff = require('simple-bufferstream');
-var path = require('path');
+var stripDirs = require('strip-dirs');
 var tar = require('tar');
 
 /**
@@ -20,7 +20,7 @@ module.exports = function (opts) {
     return function (file, decompress, cb) {
         var files = [];
 
-        if (archiveType(file.contents) !== 'bz2') {
+        if (!isBzip2(file.contents)) {
             return cb();
         }
 
@@ -41,19 +41,7 @@ module.exports = function (opts) {
 
                     file.on('end', function () {
                         chunk = new Buffer(chunk, 'utf8');
-
-                        if (opts.strip) {
-                            var f = path.basename(file.path);
-                            var p = path.dirname(file.path.split('/'));
-
-                            if (Array.isArray(p)) {
-                                p = p.slice(opts.strip).join(path.sep);
-                            }
-
-                            file.path = path.join(p, f);
-                        }
-
-                        files.push({ contents: chunk, path: file.path });
+                        files.push({ contents: chunk, path: stripDirs(file.path, opts.strip) });
                     });
                 }
             })
