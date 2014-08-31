@@ -21,7 +21,8 @@ module.exports = function (opts) {
         var files = [];
 
         if (!isBzip2(file.contents)) {
-            return cb();
+            cb();
+            return;
         }
 
         file.contents = bz2.decode(file.contents);
@@ -31,6 +32,7 @@ module.exports = function (opts) {
                 cb(err);
                 return;
             })
+
             .on('entry', function (file) {
                 if (file.type !== 'Directory') {
                     var chunk = '';
@@ -45,6 +47,7 @@ module.exports = function (opts) {
                     });
                 }
             })
+
             .on('end', function () {
                 decompress.files = files;
                 cb();

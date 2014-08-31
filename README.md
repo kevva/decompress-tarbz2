@@ -12,10 +12,10 @@ $ npm install --save decompress-tarbz2
 
 ```js
 var Decompress = require('decompress');
-var zip = require('decompress-tarbz2');
+var tarbz2 = require('decompress-tarbz2');
 
 var decompress = new Decompress()
-    .src('foo.tarbz2')
+    .src('foo.tar.bz2')
     .dest('destFolder')
     .use(tarbz2({ strip: 1 }));
 
