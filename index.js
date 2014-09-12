@@ -1,10 +1,12 @@
 'use strict';
 
 var bz2 = require('seek-bzip');
+var File = require('vinyl');
 var isBzip2 = require('is-bzip2');
 var sbuff = require('simple-bufferstream');
 var stripDirs = require('strip-dirs');
 var tar = require('tar');
+var through = require('through2');
 
 /**
  * tar.bz2 decompress plugin
@@ -17,11 +19,21 @@ module.exports = function (opts) {
     opts = opts || {};
     opts.strip = +opts.strip || 0;
 
-    return function (file, decompress, cb) {
+    return through.obj(function (file, enc, cb) {
         var files = [];
 
+        if (file.isNull()) {
+            cb(null, file);
+            return;
+        }
+
+        if (file.isStream()) {
+            cb(new Error('Streaming is not supported'));
+            return;
+        }
+
         if (!isBzip2(file.contents)) {
-            cb();
+            cb(null, file);
             return;
         }
 
@@ -45,14 +57,16 @@ module.exports = function (opts) {
 
                     file.on('end', function () {
                         chunk = Buffer.concat(chunk, len);
-                        files.push({ contents: chunk, path: stripDirs(file.path, opts.strip) });
+                        files.push(new File({
+                            contents: chunk,
+                            path: stripDirs(file.path, opts.strip)
+                        }));
                     });
                 }
             })
 
             .on('end', function () {
-                decompress.files = files;
-                cb();
+                cb(null, files);
             });
-    };
+    });
 };
