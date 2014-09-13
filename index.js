@@ -20,7 +20,7 @@ module.exports = function (opts) {
     opts.strip = +opts.strip || 0;
 
     return through.obj(function (file, enc, cb) {
-        var files = [];
+        var self = this;
 
         if (file.isNull()) {
             cb(null, file);
@@ -56,9 +56,8 @@ module.exports = function (opts) {
                     });
 
                     file.on('end', function () {
-                        chunk = Buffer.concat(chunk, len);
-                        files.push(new File({
-                            contents: chunk,
+                        self.push(new File({
+                            contents: Buffer.concat(chunk, len),
                             path: stripDirs(file.path, opts.strip)
                         }));
                     });
@@ -66,7 +65,7 @@ module.exports = function (opts) {
             })
 
             .on('end', function () {
-                cb(null, files);
+                cb();
             });
     });
 };
