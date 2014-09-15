@@ -3,9 +3,8 @@
 var bz2 = require('seek-bzip');
 var File = require('vinyl');
 var isBzip2 = require('is-bzip2');
-var sbuff = require('simple-bufferstream');
 var stripDirs = require('strip-dirs');
-var tar = require('tar');
+var tar = require('tar-stream');
 var through = require('through2');
 
 /**
@@ -21,6 +20,7 @@ module.exports = function (opts) {
 
     return through.obj(function (file, enc, cb) {
         var self = this;
+        var extract = tar.extract();
 
         if (file.isNull()) {
             cb(null, file);
@@ -37,35 +37,36 @@ module.exports = function (opts) {
             return;
         }
 
-        file.contents = bz2.decode(file.contents);
+        extract.on('error', function (err) {
+            cb(err);
+            return;
+        });
 
-        sbuff(file.contents).pipe(tar.Parse())
-            .on('error', function (err) {
-                cb(err);
-                return;
-            })
+        extract.on('entry', function (header, stream, done) {
+            var chunk = [];
+            var len = 0;
 
-            .on('entry', function (file) {
-                if (file.type !== 'Directory') {
-                    var chunk = [];
-                    var len = 0;
-
-                    file.on('data', function (data) {
-                        chunk.push(data);
-                        len += data.length;
-                    });
-
-                    file.on('end', function () {
-                        self.push(new File({
-                            contents: Buffer.concat(chunk, len),
-                            path: stripDirs(file.path, opts.strip)
-                        }));
-                    });
-                }
-            })
-
-            .on('end', function () {
-                cb();
+            stream.on('data', function (data) {
+                chunk.push(data);
+                len += data.length;
             });
+
+            stream.on('end', function () {
+                if (header.type !== 'directory') {
+                    self.push(new File({
+                        contents: Buffer.concat(chunk, len),
+                        path: stripDirs(header.name, opts.strip)
+                    }));
+                }
+
+                done();
+            });
+        });
+
+        extract.on('finish', function () {
+            cb();
+        });
+
+        extract.end(bz2.decode(file.contents));
     });
 };
