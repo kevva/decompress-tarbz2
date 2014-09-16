@@ -23,6 +23,7 @@
     "decompress",
     "decompressplugin",
     "extract",
+    "gulpplugin",
     "tar",
     "tar.bz2",
     "tarbz2"
