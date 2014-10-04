@@ -15,16 +15,16 @@ var Decompress = require('decompress');
 var tarbz2 = require('decompress-tarbz2');
 
 var decompress = new Decompress()
-    .src('foo.tar.bz2')
-    .dest('dest')
-    .use(tarbz2({ strip: 1 }));
+	.src('foo.tar.bz2')
+	.dest('dest')
+	.use(tarbz2({ strip: 1 }));
 
 decompress.run(function (err, files) {
-    if (err) {
-        throw err;
-    }
+	if (err) {
+		throw err;
+	}
 
-    console.log('Files extracted successfully!'); 
+	console.log('Files extracted successfully!'); 
 });
 ```
 
@@ -35,9 +35,9 @@ var gulp = require('gulp');
 var tarbz2 = require('decompress-tarbz2');
 
 gulp.task('default', function () {
-    return gulp.src('foo.tar.bz2')
-        .pipe(tarbz2({ strip: 1 }))
-        .pipe(gulp.dest('dest'));
+	return gulp.src('foo.tar.bz2')
+		.pipe(tarbz2({ strip: 1 }))
+		.pipe(gulp.dest('dest'));
 });
 ```
 
