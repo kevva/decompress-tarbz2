@@ -31,8 +31,8 @@
   "dependencies": {
     "is-bzip2": "^1.0.0",
     "seek-bzip": "^1.0.3",
-    "strip-dirs": "^0.1.1",
-    "tar-stream": "^0.4.5",
+    "strip-dirs": "^1.0.0",
+    "tar-stream": "^1.1.1",
     "through2": "^0.6.1",
     "vinyl": "^0.4.3"
   },
