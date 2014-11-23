@@ -37,11 +37,6 @@ module.exports = function (opts) {
 			return;
 		}
 
-		extract.on('error', function (err) {
-			cb(err);
-			return;
-		});
-
 		extract.on('entry', function (header, stream, done) {
 			var chunk = [];
 			var len = 0;
@@ -63,10 +58,8 @@ module.exports = function (opts) {
 			});
 		});
 
-		extract.on('finish', function () {
-			cb();
-		});
-
+		extract.on('error', cb);
+		extract.on('finish', cb);
 		extract.end(bz2.decode(file.contents));
 	});
 };
