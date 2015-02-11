@@ -7,13 +7,6 @@ var stripDirs = require('strip-dirs');
 var tar = require('tar-stream');
 var through = require('through2');
 
-/**
- * tar.bz2 decompress plugin
- *
- * @param {Object} opts
- * @api public
- */
-
 module.exports = function (opts) {
 	opts = opts || {};
 	opts.strip = +opts.strip || 0;
