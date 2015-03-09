@@ -33,10 +33,12 @@ You can also use this plugin with [gulp](http://gulpjs.com):
 ```js
 var gulp = require('gulp');
 var tarbz2 = require('decompress-tarbz2');
+var vinylAssign = require('vinyl-assign');
 
 gulp.task('default', function () {
 	return gulp.src('foo.tar.bz2')
-		.pipe(tarbz2({ strip: 1 }))
+		.pipe(vinylAssign({extract: true}))
+		.pipe(tarbz2({strip: 1}))
 		.pipe(gulp.dest('dest'));
 });
 ```
