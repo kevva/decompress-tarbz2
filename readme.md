@@ -17,7 +17,7 @@ var tarbz2 = require('decompress-tarbz2');
 var decompress = new Decompress()
 	.src('foo.tar.bz2')
 	.dest('dest')
-	.use(tarbz2({ strip: 1 }));
+	.use(tarbz2({strip: 1}));
 
 decompress.run(function (err, files) {
 	if (err) {
