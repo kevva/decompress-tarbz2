@@ -30,6 +30,7 @@
   ],
   "dependencies": {
     "is-bzip2": "^1.0.0",
+    "object-assign": "^2.0.0",
     "seek-bzip": "^1.0.3",
     "strip-dirs": "^1.0.0",
     "tar-stream": "^1.1.1",
