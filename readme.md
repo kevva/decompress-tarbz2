@@ -2,55 +2,54 @@
 
 > tar.bz2 decompress plugin
 
+
 ## Install
 
-```sh
+```
 $ npm install --save decompress-tarbz2
 ```
+
 
 ## Usage
 
 ```js
 var Decompress = require('decompress');
-var tarbz2 = require('decompress-tarbz2');
+var decompressTarbz2 = require('decompress-tarbz2');
 
-var decompress = new Decompress()
+new Decompress()
 	.src('foo.tar.bz2')
 	.dest('dest')
-	.use(tarbz2({strip: 1}));
-
-decompress.run(function (err, files) {
-	if (err) {
-		throw err;
-	}
-
-	console.log('Files extracted successfully!'); 
-});
+	.use(decompressTarbz2({strip: 1}))
+	.run();
 ```
 
 You can also use this plugin with [gulp](http://gulpjs.com):
 
 ```js
+var decompressTarbz2 = require('decompress-tarbz2');
 var gulp = require('gulp');
-var tarbz2 = require('decompress-tarbz2');
 var vinylAssign = require('vinyl-assign');
 
 gulp.task('default', function () {
 	return gulp.src('foo.tar.bz2')
 		.pipe(vinylAssign({extract: true}))
-		.pipe(tarbz2({strip: 1}))
+		.pipe(decompressTarbz2({strip: 1}))
 		.pipe(gulp.dest('dest'));
 });
 ```
 
-## Options
 
-### strip
+## API
 
-Type: `Number`  
+### decompressTarbz2(options)
+
+#### options.strip
+
+Type: `number`  
 Default: `0`
 
-Equivalent to `--strip-components` for tar.
+Remove leading directory components from extracted files.
+
 
 ## License
 
