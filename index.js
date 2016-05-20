@@ -1,14 +1,14 @@
 'use strict';
 const decompressTar = require('decompress-tar');
-const isBzip = require('is-bzip2');
+const fileType = require('file-type');
 const seekBzip = require('seek-bzip');
 
 module.exports = () => buf => {
 	if (!Buffer.isBuffer(buf)) {
-		return Promise.reject(new TypeError('Expected a buffer'));
+		return Promise.reject(new TypeError(`Expected a Buffer, got ${typeof buf}`));
 	}
 
-	if (!isBzip(buf)) {
+	if (!fileType(buf) || fileType(buf).ext !== 'bz2') {
 		return Promise.resolve([]);
 	}
 
