@@ -1,16 +1,22 @@
 'use strict';
 const decompressTar = require('decompress-tar');
 const fileType = require('file-type');
+const isStream = require('is-stream');
 const seekBzip = require('seek-bzip');
+const unbzip2Stream = require('unbzip2-stream');
 
-module.exports = () => buf => {
-	if (!Buffer.isBuffer(buf)) {
-		return Promise.reject(new TypeError(`Expected a Buffer, got ${typeof buf}`));
+module.exports = () => input => {
+	if (!Buffer.isBuffer(input) && !isStream(input)) {
+		return Promise.reject(new TypeError(`Expected a Buffer or Stream, got ${typeof input}`));
 	}
 
-	if (!fileType(buf) || fileType(buf).ext !== 'bz2') {
+	if (Buffer.isBuffer(input) && (!fileType(input) || fileType(input).ext !== 'bz2')) {
 		return Promise.resolve([]);
 	}
 
-	return decompressTar()(seekBzip.decode(buf));
+	if (Buffer.isBuffer(input)) {
+		return decompressTar()(seekBzip.decode(input));
+	}
+
+	return decompressTar()(input.pipe(unbzip2Stream()));
 };

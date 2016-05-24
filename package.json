@@ -28,10 +28,12 @@
     "tarbz2"
   ],
   "dependencies": {
-    "decompress-tar": "^4.0.0",
+    "decompress-tar": "^4.1.0",
     "file-type": "^3.8.0",
+    "is-stream": "^1.1.0",
     "pify": "^2.3.0",
-    "seek-bzip": "^1.0.5"
+    "seek-bzip": "^1.0.5",
+    "unbzip2-stream": "^1.0.9"
   },
   "devDependencies": {
     "ava": "*",

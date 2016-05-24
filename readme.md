@@ -30,9 +30,11 @@ decompress('unicorn.tar.gz', 'dist', {
 
 ### decompressTarbz()(buf)
 
+Returns both a Promise for a Buffer and a [Duplex stream](https://nodejs.org/api/stream.html#stream_class_stream_duplex).
+
 #### buf
 
-Type: `Buffer`
+Type: `Buffer` `Stream`
 
 Buffer to decompress.
 
