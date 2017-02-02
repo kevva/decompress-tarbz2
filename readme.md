@@ -43,6 +43,7 @@ Buffer to decompress.
 
 See [decompress-tar](https://github.com/kevva/decompress-tar#options) module options.
 
+
 ## License
 
 MIT © [Kevin Mårtensson](https://github.com/kevva)
