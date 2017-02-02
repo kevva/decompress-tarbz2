@@ -28,7 +28,7 @@ decompress('unicorn.tar.gz', 'dist', {
 
 ## API
 
-### decompressTarbz()(input)
+### decompressTarbz()(input, [options])
 
 Returns both a Promise for a Buffer and a [Duplex stream](https://nodejs.org/api/stream.html#stream_class_stream_duplex).
 
@@ -37,6 +37,11 @@ Returns both a Promise for a Buffer and a [Duplex stream](https://nodejs.org/api
 Type: `Buffer` `Stream`
 
 Buffer to decompress.
+
+
+#### options
+
+See [decompress-tar](https://github.com/kevva/decompress-tar#options) module options.
 
 
 ## License
