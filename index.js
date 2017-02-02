@@ -5,7 +5,7 @@ const isStream = require('is-stream');
 const seekBzip = require('seek-bzip');
 const unbzip2Stream = require('unbzip2-stream');
 
-module.exports = () => (input, opts) => {
+module.exports = () => input => {
 	if (!Buffer.isBuffer(input) && !isStream(input)) {
 		return Promise.reject(new TypeError(`Expected a Buffer or Stream, got ${typeof input}`));
 	}
@@ -15,8 +15,8 @@ module.exports = () => (input, opts) => {
 	}
 
 	if (Buffer.isBuffer(input)) {
-		return decompressTar()(seekBzip.decode(input), opts);
+		return decompressTar()(seekBzip.decode(input));
 	}
 
-	return decompressTar()(input.pipe(unbzip2Stream()), opts);
+	return decompressTar()(input.pipe(unbzip2Stream()));
 };
