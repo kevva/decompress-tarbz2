@@ -6,7 +6,7 @@
 ## Install
 
 ```
-$ npm install --save decompress-tarbz2
+$ npm install decompress-tarbz2
 ```
 
 
@@ -30,7 +30,7 @@ decompress('unicorn.tar.gz', 'dist', {
 
 ### decompressTarbz()(input)
 
-Returns both a Promise for a Buffer and a [Duplex stream](https://nodejs.org/api/stream.html#stream_class_stream_duplex).
+Returns both a `Promise` for a `Buffer` and a [`Duplex stream`](https://nodejs.org/api/stream.html#stream_class_stream_duplex).
 
 #### input
 
