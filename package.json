@@ -1,6 +1,6 @@
 {
 	"name": "decompress-tarbz2",
-	"version": "4.1.0",
+	"version": "4.1.1",
 	"description": "decompress tar.bz2 plugin",
 	"license": "MIT",
 	"repository": "kevva/decompress-tarbz2",
